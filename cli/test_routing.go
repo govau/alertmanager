@@ -70,7 +70,7 @@ func printMatchingTree(mainRoute *dispatch.Route, ls client.LabelSet) {
 }
 
 func (c *routingShow) routingTestAction(ctx context.Context, _ *kingpin.ParseContext) error {
-	cfg, err := loadAlertmanagerConfig(ctx, alertmanagerURL, c.configFile)
+	cfg, err := loadAlertmanagerConfig(ctx, c.configFile)
 	if err != nil {
 		kingpin.Fatalf("%v\n", err)
 		return err

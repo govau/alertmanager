@@ -19,7 +19,6 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/prometheus/client_golang/api"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/alertmanager/cli/format"
@@ -90,7 +89,7 @@ func (a *alertQueryCmd) queryAlerts(ctx context.Context, _ *kingpin.ParseContext
 		filterString = fmt.Sprintf("{%s}", strings.Join(a.matcherGroups, ","))
 	}
 
-	c, err := api.NewClient(api.Config{Address: alertmanagerURL.String()})
+	c, err := NewClientFromConfig()
 	if err != nil {
 		return err
 	}

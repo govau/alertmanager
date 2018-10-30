@@ -23,7 +23,6 @@ import (
 
 	"github.com/prometheus/alertmanager/client"
 	amconfig "github.com/prometheus/alertmanager/config"
-	"github.com/prometheus/client_golang/api"
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/alertmanager/pkg/parse"
@@ -74,8 +73,8 @@ func parseMatchers(inputMatchers []string) ([]labels.Matcher, error) {
 }
 
 // getRemoteAlertmanagerConfigStatus returns status responsecontaining configuration from remote Alertmanager
-func getRemoteAlertmanagerConfigStatus(ctx context.Context, alertmanagerURL *url.URL) (*client.ServerStatus, error) {
-	c, err := api.NewClient(api.Config{Address: alertmanagerURL.String()})
+func getRemoteAlertmanagerConfigStatus(ctx context.Context) (*client.ServerStatus, error) {
+	c, err := NewClientFromConfig()
 	if err != nil {
 		return nil, err
 	}
@@ -96,7 +95,7 @@ func checkRoutingConfigInputFlags(alertmanagerURL *url.URL, configFile string) {
 	}
 }
 
-func loadAlertmanagerConfig(ctx context.Context, alertmanagerURL *url.URL, configFile string) (*amconfig.Config, error) {
+func loadAlertmanagerConfig(ctx context.Context, configFile string) (*amconfig.Config, error) {
 	checkRoutingConfigInputFlags(alertmanagerURL, configFile)
 	if configFile != "" {
 		cfg, _, err := amconfig.LoadFile(configFile)
@@ -106,7 +105,7 @@ func loadAlertmanagerConfig(ctx context.Context, alertmanagerURL *url.URL, confi
 		return cfg, nil
 	}
 	if alertmanagerURL != nil {
-		status, err := getRemoteAlertmanagerConfigStatus(ctx, alertmanagerURL)
+		status, err := getRemoteAlertmanagerConfigStatus(ctx)
 		if err != nil {
 			return nil, err
 		}

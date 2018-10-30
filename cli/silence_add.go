@@ -20,7 +20,6 @@ import (
 	"os/user"
 	"time"
 
-	"github.com/prometheus/client_golang/api"
 	"github.com/prometheus/common/model"
 	"gopkg.in/alecthomas/kingpin.v2"
 
@@ -147,7 +146,7 @@ func (c *silenceAddCmd) add(ctx context.Context, _ *kingpin.ParseContext) error 
 		Comment:   c.comment,
 	}
 
-	apiClient, err := api.NewClient(api.Config{Address: alertmanagerURL.String()})
+	apiClient, err := NewClientFromConfig()
 	if err != nil {
 		return err
 	}

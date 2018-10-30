@@ -17,7 +17,6 @@ import (
 	"context"
 	"errors"
 
-	"github.com/prometheus/client_golang/api"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/alertmanager/client"
@@ -41,7 +40,7 @@ func (c *silenceExpireCmd) expire(ctx context.Context, _ *kingpin.ParseContext) 
 		return errors.New("no silence IDs specified")
 	}
 
-	apiClient, err := api.NewClient(api.Config{Address: alertmanagerURL.String()})
+	apiClient, err := NewClientFromConfig()
 	if err != nil {
 		return err
 	}

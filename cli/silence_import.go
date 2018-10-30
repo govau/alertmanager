@@ -22,7 +22,6 @@ import (
 	"sync"
 
 	"github.com/pkg/errors"
-	"github.com/prometheus/client_golang/api"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/alertmanager/client"
@@ -96,7 +95,7 @@ func (c *silenceImportCmd) bulkImport(ctx context.Context, _ *kingpin.ParseConte
 		return errors.Wrap(err, "couldn't unmarshal input data, is it JSON?")
 	}
 
-	apiClient, err := api.NewClient(api.Config{Address: alertmanagerURL.String()})
+	apiClient, err := NewClientFromConfig()
 	if err != nil {
 		return err
 	}

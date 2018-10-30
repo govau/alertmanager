@@ -38,7 +38,7 @@ func configureConfigCmd(app *kingpin.Application) {
 }
 
 func queryConfig(ctx context.Context, _ *kingpin.ParseContext) error {
-	status, err := getRemoteAlertmanagerConfigStatus(ctx, alertmanagerURL)
+	status, err := getRemoteAlertmanagerConfigStatus(ctx)
 	if err != nil {
 		return err
 	}

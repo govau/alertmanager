@@ -20,7 +20,6 @@ import (
 	"time"
 
 	"github.com/prometheus/alertmanager/client"
-	"github.com/prometheus/client_golang/api"
 	"gopkg.in/alecthomas/kingpin.v2"
 )
 
@@ -69,7 +68,7 @@ func configureAddAlertCmd(cc *kingpin.CmdClause) {
 }
 
 func (a *alertAddCmd) addAlert(ctx context.Context, _ *kingpin.ParseContext) error {
-	c, err := api.NewClient(api.Config{Address: alertmanagerURL.String()})
+	c, err := NewClientFromConfig()
 	if err != nil {
 		return err
 	}

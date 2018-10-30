@@ -19,7 +19,6 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/prometheus/client_golang/api"
 	"gopkg.in/alecthomas/kingpin.v2"
 
 	"github.com/prometheus/alertmanager/cli/format"
@@ -57,7 +56,7 @@ func (c *silenceUpdateCmd) update(ctx context.Context, _ *kingpin.ParseContext) 
 		return fmt.Errorf("no silence IDs specified")
 	}
 
-	apiClient, err := api.NewClient(api.Config{Address: alertmanagerURL.String()})
+	apiClient, err := NewClientFromConfig()
 	if err != nil {
 		return err
 	}

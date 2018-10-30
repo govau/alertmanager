@@ -31,6 +31,9 @@ var (
 	output          string
 	timeout         time.Duration
 
+	basicAuthUsername string
+	basicAuthPassword string
+
 	configFiles = []string{os.ExpandEnv("$HOME/.config/amtool/config.yml"), "/etc/amtool/config.yml"}
 	legacyFlags = map[string]string{"comment_required": "require-comment"}
 )
@@ -64,6 +67,8 @@ func Execute() {
 	app.Flag("alertmanager.url", "Alertmanager to talk to").URLVar(&alertmanagerURL)
 	app.Flag("output", "Output formatter (simple, extended, json)").Short('o').Default("simple").EnumVar(&output, "simple", "extended", "json")
 	app.Flag("timeout", "Timeout for the executed command").Default("30s").DurationVar(&timeout)
+	app.Flag("basicauth-username", "If specified, basic auth username").StringVar(&basicAuthUsername)
+	app.Flag("basicauth-password", "If specified, basic auth pasword").StringVar(&basicAuthPassword)
 
 	app.Version(version.Print("amtool"))
 	app.GetFlag("help").Short('h')
